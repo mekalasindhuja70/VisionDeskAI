@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Result | VisionDesk AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="top-bar">
+
+        <div>
+
+            <h1>📄 Upload Summary</h1>
+
+            <p>Document processed successfully</p>
+
+        </div>
+
+        <a href="/" class="btn-primary">
+
+            <i class="fa-solid fa-house"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <!-- Status -->
+
+    {% if "successfully" in message %}
+
+    <div class="message success">
+
+        {{ message }}
+
+    </div>
+
+    {% elif "already" in message %}
+
+    <div class="message warning">
+
+        {{ message }}
+
+    </div>
+
+    {% else %}
+
+    <div class="message error">
+
+        {{ message }}
+
+    </div>
+
+    {% endif %}
+
+    <!-- Statistics -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-file fa-2x"></i>
+
+            <h3>Filename</h3>
+
+            <p>{{ filename }}</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-layer-group fa-2x"></i>
+
+            <h3>Chunks Created</h3>
+
+            <h1>{{ chunk_count }}</h1>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-database fa-2x"></i>
+
+            <h3>Total Chunks</h3>
+
+            <h1>{{ vector_count }}</h1>
+
+        </div>
+
+    </div>
+
+    <!-- Chunk Preview -->
+
+    <div class="card">
+
+        <h2>
+
+            <i class="fa-solid fa-list"></i>
+
+            Chunk Preview
+
+        </h2>
+
+        {% if chunks %}
+
+            {% for chunk in chunks %}
+
+                <div class="chunk">
+
+                    <h3>
+
+                        Chunk {{ loop.index }}
+
+                    </h3>
+
+                    <p>
+
+                        {{ chunk }}
+
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-box">
+
+                <h3>No Chunks Available</h3>
+
+                <p>
+
+                    Upload another document.
+
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Actions -->
+
+    <div class="card" style="text-align:center;">
+
+        <a href="/" class="btn-primary">
+
+            <i class="fa-solid fa-upload"></i>
+
+            Upload Another Document
+
+        </a>
+
+        &nbsp;&nbsp;
+
+        <a href="/documents" class="btn-primary">
+
+            <i class="fa-solid fa-book"></i>
+
+            Knowledge Base
+
+        </a>
+
+    </div>
+
+    <div class="footer">
+
+        VisionDesk AI © 2026
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

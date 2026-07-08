@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search Results | VisionDesk AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="top-bar">
+
+        <div>
+
+            <h1>🔍 Semantic Search</h1>
+
+            <p>AI-powered document retrieval</p>
+
+        </div>
+
+        <a href="/" class="btn-primary">
+
+            <i class="fa-solid fa-house"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <!-- Search Again -->
+
+    <div class="card">
+
+        <form action="/search" method="POST">
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    name="query"
+                    value="{{ query }}"
+                    placeholder="Search your knowledge base..."
+                    required>
+
+                <button type="submit">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Results Count -->
+
+    <div class="card">
+
+        <h2>
+
+            <i class="fa-solid fa-file-circle-check"></i>
+
+            Search Results
+
+        </h2>
+
+        <p>
+
+            Showing <strong>{{ results|length }}</strong>
+            result(s) for
+
+            <strong>"{{ query }}"</strong>
+
+        </p>
+
+    </div>
+
+    <!-- Search Results -->
+
+    {% if results %}
+
+        {% for result in results %}
+
+        <div class="card result-card">
+
+            <div class="result-header">
+
+                <h3>
+
+                    <i class="fa-solid fa-file-lines"></i>
+
+                    {{ result.source }}
+
+                </h3>
+
+                <span class="badge">
+
+                    Chunk {{ result.chunk }}
+
+                </span>
+
+            </div>
+
+            <div class="result-body">
+
+                {{ result.document }}
+
+            </div>
+
+            {% if result.distance is defined %}
+
+            <div class="result-footer">
+
+                Similarity Distance :
+
+                {{ "%.4f"|format(result.distance) }}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+    <div class="card empty-box">
+
+        <i class="fa-solid fa-circle-xmark fa-4x"></i>
+
+        <h2>No Results Found</h2>
+
+        <p>
+
+            Try another keyword or upload more documents.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+    <!-- Footer Buttons -->
+
+    <div class="card" style="text-align:center;">
+
+        <a href="/" class="btn-primary">
+
+            <i class="fa-solid fa-upload"></i>
+
+            Upload More Documents
+
+        </a>
+
+        &nbsp;&nbsp;
+
+        <a href="/documents" class="btn-primary">
+
+            <i class="fa-solid fa-book"></i>
+
+            Knowledge Base
+
+        </a>
+
+    </div>
+
+    <div class="footer">
+
+        VisionDesk AI © 2026
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

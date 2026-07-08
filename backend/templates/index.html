@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VisionDesk AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+<!-- Loading Screen -->
+
+<div class="loader-overlay" id="loader">
+
+    <div class="loader"></div>
+
+    <div class="loader-text">
+
+        Processing Document...
+
+    </div>
+
+</div>
+<script>
+
+const uploadForm=document.querySelector('form[action="/upload"]');
+
+if(uploadForm){
+
+uploadForm.addEventListener("submit",function(){
+
+document.getElementById("loader").style.display="flex";
+
+});
+
+}
+
+const searchForm=document.querySelector('form[action="/search"]');
+
+if(searchForm){
+
+searchForm.addEventListener("submit",function(){
+
+document.querySelector(".loader-text").innerHTML="Searching Knowledge Base...";
+
+document.getElementById("loader").style.display="flex";
+
+});
+
+}
+
+</script>
+
+<body>
+
+<div class="container">
+
+    <!-- ================= Header ================= -->
+
+    <div class="top-bar">
+
+        <div>
+
+            <h1>🤖 VisionDesk AI</h1>
+
+            <p>Enterprise Document Intelligence Platform</p>
+
+        </div>
+
+        <a href="/documents" class="btn-primary">
+
+            <i class="fa-solid fa-book"></i>
+
+            Knowledge Base
+
+        </a>
+
+    </div>
+
+    <!-- ================= Hero ================= -->
+
+    <div class="card hero">
+
+        <h1>Upload • Search • Retrieve</h1>
+
+        <p>
+
+            Upload company documents and perform AI-powered semantic search
+            across your knowledge base in seconds.
+
+        </p>
+
+    </div>
+
+    <!-- ================= Statistics ================= -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-file fa-2x"></i>
+
+            <h3>Total Documents</h3>
+
+            <h1>{{ total_documents|default(0) }}</h1>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-layer-group fa-2x"></i>
+
+            <h3>Total Chunks</h3>
+
+            <h1>{{ total_chunks|default(0) }}</h1>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-brain fa-2x"></i>
+
+            <h3>Embedding Model</h3>
+
+            <h2>MiniLM-L6-v2</h2>
+
+        </div>
+
+    </div>
+
+    <!-- ================= Upload ================= -->
+
+<div class="card">
+
+    <h2>
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        Upload Knowledge Document
+    </h2>
+
+    <form action="/upload"
+          method="POST"
+          enctype="multipart/form-data">
+
+        <label class="upload-box">
+
+            <input
+                type="file"
+                name="document"
+                required>
+
+            <i class="fa-solid fa-file-arrow-up"></i>
+
+            <h3>Drag & Drop</h3>
+
+            <p>or Click to Browse</p>
+
+            <span>PDF • DOCX • TXT</span>
+
+        </label>
+
+        <br><br>
+
+        <button type="submit">
+            Upload Document
+        </button>
+
+    </form>
+
+</div>
+
+    <!-- ================= Search ================= -->
+
+    <div class="card">
+
+        <h2>
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            Semantic Search
+
+        </h2>
+
+        <form action="/search" method="POST">
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    name="query"
+                    placeholder="Ask anything from your uploaded documents..."
+                    required>
+
+                <button type="submit">
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- ================= Features ================= -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h2>📄</h2>
+
+            <h3>Multiple Formats</h3>
+
+            <p>PDF, DOCX & TXT Support</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>🧠</h2>
+
+            <h3>AI Embeddings</h3>
+
+            <p>Semantic Document Understanding</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>⚡</h2>
+
+            <h3>Fast Retrieval</h3>
+
+            <p>Instant Knowledge Search</p>
+
+        </div>
+
+    </div>
+
+    <!-- ================= Footer ================= -->
+
+    <div class="footer">
+
+        VisionDesk AI © 2026
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

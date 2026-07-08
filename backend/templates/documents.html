@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Knowledge Base | VisionDesk AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="top-bar">
+
+        <div>
+
+            <h1>📚 Knowledge Base</h1>
+
+            <p>Manage your uploaded AI knowledge documents</p>
+
+        </div>
+
+        <a href="/" class="btn-primary">
+
+            <i class="fa-solid fa-house"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-file fa-2x"></i>
+
+            <h3>Total Documents</h3>
+
+            <h1>{{ total_documents }}</h1>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-layer-group fa-2x"></i>
+
+            <h3>Total Chunks</h3>
+
+            <h1>{{ total_chunks }}</h1>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-brain fa-2x"></i>
+
+            <h3>AI Status</h3>
+
+            <h2 style="color:#16a34a;">Ready</h2>
+
+        </div>
+
+    </div>
+
+    <!-- Documents -->
+
+    <div class="card">
+
+        <h2>
+
+            <i class="fa-solid fa-folder-open"></i>
+
+            Uploaded Documents
+
+        </h2>
+
+        {% if documents %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Document</th>
+
+                    <th>Chunks</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for doc in documents %}
+
+                <tr>
+
+                    <td>
+
+                        <i class="fa-solid fa-file-lines"></i>
+
+                        {{ doc.filename }}
+
+                    </td>
+
+                    <td>
+
+                        {{ doc.chunks }}
+
+                    </td>
+
+                    <td>
+
+                        <span class="status">
+
+                            Indexed
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <a href="/delete/{{ doc.filename }}"
+                           class="delete-btn">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty-box">
+
+            <i class="fa-solid fa-folder-open fa-4x"></i>
+
+            <h2>No Documents Uploaded</h2>
+
+            <p>
+
+                Upload your first document to start building your AI Knowledge Base.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Bottom Actions -->
+
+    <div class="card" style="text-align:center;">
+
+        <a href="/"
+           class="btn-primary">
+
+            <i class="fa-solid fa-upload"></i>
+
+            Upload More
+
+        </a>
+
+        &nbsp;&nbsp;
+
+        <a href="/clear"
+           class="clear-btn">
+
+            <i class="fa-solid fa-trash-can"></i>
+
+            Clear Knowledge Base
+
+        </a>
+
+    </div>
+
+    <div class="footer">
+
+        VisionDesk AI © 2026
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

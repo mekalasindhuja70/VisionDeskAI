@@ -3,9 +3,11 @@ from ultralytics import YOLO
 
 from app.services.compliance_service import compliance_service
 
-MODEL_PATH = "app/ai/models/visiondesk_ppe.pt"
+# Use absolute path resolution so Render can always find the model file regardless of working directory
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR.parent / "ai" / "models" / "visiondesk_ppe.pt"
 
-model = YOLO(MODEL_PATH)
+model = YOLO(str(MODEL_PATH))
 
 CONFIDENCE_THRESHOLD = 0.25
 

@@ -1,9 +1,8 @@
 from pathlib import Path
 from ultralytics import YOLO
-
 from app.services.compliance_service import compliance_service
 
-# Use absolute path resolution so Render can always find the model file regardless of working directory
+# Absolute path resolution so Render finds the model file correctly
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR.parent / "ai" / "models" / "visiondesk_ppe.pt"
 
@@ -15,7 +14,6 @@ CONFIDENCE_THRESHOLD = 0.25
 class DetectionService:
 
     def detect(self, image_path: str):
-
         results = model(image_path)
 
         output_dir = Path("app/uploads/results")
@@ -26,18 +24,15 @@ class DetectionService:
         detections = []
 
         for result in results:
-
             result.save(filename=str(annotated_path))
 
             for box in result.boxes:
-
                 conf = float(box.conf[0])
 
                 if conf < CONFIDENCE_THRESHOLD:
                     continue
 
                 cls = int(box.cls[0])
-
                 label = model.names[cls]
 
                 if label == "none":
@@ -63,19 +58,14 @@ class DetectionService:
         }
 
         for worker in workers:
-
             if worker["helmet"]:
                 summary["helmet"] += 1
-
             if worker["vest"]:
                 summary["vest"] += 1
-
             if worker["gloves"]:
                 summary["gloves"] += 1
-
             if worker["goggles"]:
                 summary["goggles"] += 1
-
             if worker["boots"]:
                 summary["boots"] += 1
 
@@ -90,33 +80,18 @@ class DetectionService:
         score_sum = 0
 
         for worker in workers:
-
             worker_score = 0
-
-            for item in [
-                "helmet",
-                "vest",
-                "gloves",
-                "goggles",
-                "boots",
-            ]:
-
+            for item in ["helmet", "vest", "gloves", "goggles", "boots"]:
                 if worker[item]:
                     worker_score += 1
                 else:
                     missing[item] += 1
-
             score_sum += worker_score
 
         if len(workers) == 0:
-
             safety_score = 100
-
         else:
-
-            safety_score = round(
-                score_sum / (len(workers) * 5) * 100
-            )
+            safety_score = round(score_sum / (len(workers) * 5) * 100)
 
         violations = sum(missing.values())
 
@@ -128,25 +103,15 @@ class DetectionService:
             risk = "HIGH"
 
         return {
-
             "detections": detections,
-
             "workers": workers,
-
             "stats": summary,
-
             "missing": missing,
-
             "violations": violations,
-
             "workers_count": len(workers),
-
             "safety_score": safety_score,
-
             "risk": risk,
-
             "annotated_image": str(annotated_path).replace("\\", "/"),
-
         }
 
 
